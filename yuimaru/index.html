@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ゆいまる ― 助けて、助けられて、めぐる。</title>
+<meta name="description" content="ご近所のちょっとした困りごとを、お互いさまで助け合う。お礼は現金ではなく「めぐるポイント」。使い道は、次に自分が困ったときの依頼か、地域のNPOへの寄付だけです。">
+<meta property="og:title" content="ゆいまる ― 助けて、助けられて、めぐる。">
+<meta property="og:description" content="ご近所の助け合いが、地域への支援にめぐるアプリ。三重県で試験運用中。">
+<meta property="og:image" content="https://hikuzawa.github.io/yuimaru/img/icon-256.png">
+<meta property="og:type" content="website">
+<link rel="icon" href="img/icon-64.png">
+<link rel="apple-touch-icon" href="img/icon-256.png">
+<style>
+  :root{
+    --aka:#D9622B; --aka-koi:#B0491A; --aka-usu:#FFE7D8;
+    --midori:#2E9E6B; --ao:#3A72C4; --ao-usu:#E2ECFB;
+    --kinari:#FFF9F4; --men:#FFFFFF; --men-fuku:#FDF2EA; --keisen:#EDDFD4;
+    --sumi:#2B231E; --sumi-fuku:#7C6E64;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{font-size:17px;-webkit-text-size-adjust:100%}
+  body{font-family:"Hiragino Sans","Hiragino Kaku Gothic ProN","Noto Sans JP","Yu Gothic UI",Meiryo,sans-serif;
+       background:var(--kinari);color:var(--sumi);line-height:1.8}
+  img{max-width:100%;display:block}
+  a{color:var(--ao)}
+  .wrap{max-width:900px;margin:0 auto;padding:0 20px}
+  h2{font-size:1.5rem;line-height:1.4;margin-bottom:12px}
+  section{padding:56px 0}
+  .lead{color:var(--sumi-fuku);margin-bottom:28px}
+
+  /* ヘッダー */
+  header{background:var(--kinari);border-bottom:1px solid var(--keisen)}
+  header .wrap{display:flex;align-items:center;gap:10px;height:60px}
+  header img{width:36px;height:36px;border-radius:9px}
+  header strong{font-size:1.15rem}
+  header nav{margin-left:auto}
+  header nav a{color:var(--sumi-fuku);text-decoration:none;font-size:.95rem;margin-left:16px}
+
+  /* ヒーロー */
+  .hero{padding:48px 0 32px}
+  .hero .wrap{display:grid;grid-template-columns:1.2fr 1fr;gap:32px;align-items:center}
+  .hero h1{font-size:2rem;line-height:1.35;font-weight:800;margin-bottom:16px}
+  .hero h1 em{font-style:normal;color:var(--aka)}
+  .hero p{font-size:1.05rem;margin-bottom:24px}
+  .hero .pilot{display:inline-block;background:var(--ao-usu);color:var(--ao);font-weight:700;
+               font-size:.9rem;padding:4px 12px;border-radius:999px;margin-bottom:14px}
+  .phone{width:min(100%,300px);margin:0 auto;border-radius:34px;padding:10px;background:#2B231E;
+         box-shadow:0 20px 40px rgba(43,35,30,.18)}
+  .phone img{border-radius:26px}
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;background:var(--aka);color:#fff;
+       font-weight:800;font-size:1.1rem;padding:16px 28px;border-radius:999px;text-decoration:none;
+       box-shadow:0 8px 20px rgba(217,98,43,.28)}
+  .btn:hover{background:var(--aka-koi)}
+  .btn.sub{background:var(--men);color:var(--aka);border:2px solid var(--aka);box-shadow:none}
+  .note{font-size:.9rem;color:var(--sumi-fuku);margin-top:10px}
+
+  /* 3ステップ */
+  .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+  .step{background:var(--men);border-radius:20px;padding:24px 20px;border:1px solid var(--keisen)}
+  .step .no{display:inline-flex;width:40px;height:40px;border-radius:50%;align-items:center;justify-content:center;
+            color:#fff;font-weight:800;margin-bottom:12px}
+  .step h3{font-size:1.15rem;margin-bottom:6px}
+  .step p{color:var(--sumi-fuku);font-size:.98rem}
+  .c1{background:var(--midori)} .c2{background:var(--aka)} .c3{background:var(--ao)}
+
+  /* ポイント */
+  .point{background:var(--men)}
+  .point .wrap{display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:center}
+  .point .big{font-size:1.35rem;font-weight:800;line-height:1.5;margin-bottom:12px}
+  .uses{display:grid;gap:12px;margin-top:16px}
+  .use{display:flex;gap:14px;align-items:flex-start;background:var(--men-fuku);border-radius:16px;padding:16px}
+  .use .ic{font-size:1.6rem;line-height:1}
+  .use b{display:block;margin-bottom:2px}
+  .use span{color:var(--sumi-fuku);font-size:.95rem}
+
+  /* 安心 */
+  .safe ul{list-style:none;display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+  .safe li{background:var(--men);border:1px solid var(--keisen);border-radius:16px;padding:18px 20px}
+  .safe li b{display:block;color:var(--midori);margin-bottom:4px}
+  .safe li span{color:var(--sumi-fuku);font-size:.95rem}
+
+  /* 入れ方 */
+  .install{background:var(--aka-usu)}
+  .install ol{list-style:none;counter-reset:n;display:grid;gap:12px;max-width:640px}
+  .install li{counter-increment:n;background:var(--men);border-radius:16px;padding:16px 18px 16px 62px;position:relative;font-size:1.05rem}
+  .install li::before{content:counter(n);position:absolute;left:18px;top:14px;width:32px;height:32px;border-radius:50%;
+                      background:var(--aka);color:#fff;font-weight:800;display:flex;align-items:center;justify-content:center}
+  .install li small{display:block;color:var(--sumi-fuku);font-size:.92rem;margin-top:2px}
+  .install .cta{margin-top:24px}
+
+  /* 提携 */
+  .partner{background:var(--ao-usu)}
+  .partner .box{background:var(--men);border-radius:20px;padding:28px 24px;max-width:720px}
+  .partner .box p{margin-bottom:16px}
+
+  footer{padding:32px 0 48px;color:var(--sumi-fuku);font-size:.92rem}
+  footer a{margin-right:16px}
+
+  @media (max-width:720px){
+    html{font-size:16px}
+    section{padding:40px 0}
+    .hero .wrap,.point .wrap{grid-template-columns:1fr}
+    .hero h1{font-size:1.65rem}
+    .steps,.safe ul{grid-template-columns:1fr}
+    header nav{display:none}
+    .phone{width:min(100%,240px)}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <img src="img/icon-64.png" alt="">
+    <strong>ゆいまる</strong>
+    <nav>
+      <a href="#how">しくみ</a>
+      <a href="#install">入れ方</a>
+      <a href="#partner">団体の方へ</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <div>
+      <span class="pilot">三重県で試験運用中</span>
+      <h1>助けて、<br>助けられて、<br><em>めぐる。</em></h1>
+      <p>草むしり、買い物のつきそい、スマホの相談。ご近所のちょっとした困りごとを、お互いさまで助け合うアプリです。<br>お礼は現金ではなく、地域にめぐる「ポイント」で。</p>
+      <a class="btn" href="https://testflight.apple.com/join/9EwuUaJC">iPhone にインストール</a>
+      <p class="note">試験運用のため、TestFlight というアプリを通して配っています。<a href="#install">入れ方はこちら</a></p>
+    </div>
+    <div class="phone"><img src="img/home.png" alt="ゆいまるのホーム画面。近くの依頼が一覧で並んでいる" width="560" height="1214"></div>
+  </div>
+</section>
+
+<section id="how">
+  <div class="wrap">
+    <h2>3つのことが、めぐります</h2>
+    <p class="lead">困っている人・手伝う人・地域の団体。この3つのあいだをポイントがめぐります。</p>
+    <div class="steps">
+      <div class="step"><span class="no c1">1</span><h3>頼む</h3><p>「庭の草むしりを手伝ってほしい」など、困りごとを出します。詳しい住所は、お相手が決まるまで表示されません。</p></div>
+      <div class="step"><span class="no c2">2</span><h3>助ける</h3><p>近所の依頼を見て、できそうなものを引き受けます。終わったら写真で報告。お礼のポイントを受け取ります。</p></div>
+      <div class="step"><span class="no c3">3</span><h3>めぐる</h3><p>受け取ったポイントは、次に自分が困ったときに使うか、地域のNPOに寄付します。寄付は運営が同額を日本円で団体にお届けします。</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="point">
+  <div class="wrap">
+    <div>
+      <h2>お礼は、現金ではありません</h2>
+      <p class="big">「めぐるポイント」は換金できません。<br>使い道は2つだけ。</p>
+      <div class="uses">
+        <div class="use"><span class="ic">🤝</span><div><b>自分が困ったときに、誰かへ依頼する</b><span>お手伝いのお礼として渡します</span></div></div>
+        <div class="use"><span class="ic">🍚</span><div><b>地域のNPOへ寄付する</b><span>こども食堂・見守り・里山の手入れなど、選んだ団体へ</span></div></div>
+      </div>
+      <p class="note">お金のやり取りが起きないので、ご近所づきあいの気まずさがありません。</p>
+    </div>
+    <div class="phone"><img src="img/split.png" alt="受け取ったポイントを、寄付と自分用に分ける画面" width="560" height="1214" loading="lazy"></div>
+  </div>
+</section>
+
+<section class="safe">
+  <div class="wrap">
+    <h2>安心して使えるように</h2>
+    <ul>
+      <li><b>本人確認を済ませた方だけ</b><span>依頼・お手伝い・寄付は、本人確認が済んでから使えます。</span></li>
+      <li><b>住所は成立するまで見えません</b><span>町名までの表示です。お相手が決まったときだけ詳しい場所が伝わり、完了から72時間で消えます。</span></li>
+      <li><b>電話番号を教える必要がありません</b><span>連絡はアプリの中で完結します。ビデオ通話もアプリの中でできます。</span></li>
+      <li><b>困ったら運営へ</b><span>合わないと感じた相手はブロックできます。どの画面からも運営に報告できます。</span></li>
+    </ul>
+  </div>
+</section>
+
+<section class="install" id="install">
+  <div class="wrap">
+    <h2>入れ方（iPhone）</h2>
+    <p class="lead">試験運用のあいだは、Apple の「TestFlight」というアプリを通してお配りしています。はじめの1回だけ、手順が1つ多くなります。</p>
+    <ol>
+      <li>下のボタンを iPhone で開きます</li>
+      <li>「TestFlight」を入れるよう案内が出たら、入れます<small>Apple の無料アプリです。1回入れれば次からは不要です</small></li>
+      <li>TestFlight の中で「ゆいまる」を「インストール」します</li>
+      <li>ゆいまるを開き、携帯電話の番号でログインします<small>認証コードがSMSで届きます</small></li>
+    </ol>
+    <div class="cta"><a class="btn" href="https://testflight.apple.com/join/9EwuUaJC">iPhone にインストール</a></div>
+    <p class="note">うまくいかないときは、お配りした団体の担当者か、下記のサポートまでご連絡ください。</p>
+  </div>
+</section>
+
+<section class="partner" id="partner">
+  <div class="wrap">
+    <div class="box">
+      <h2>地域で活動する団体の方へ</h2>
+      <p>NPO・社会福祉協議会・自治会・こども食堂など、地域で活動する団体を<b>寄付先として登録</b>しています。費用はかかりません。登録すると、アプリの中に団体が載り、利用者からの寄付が届きます。</p>
+      <p>また、団体の皆さんからご利用者へアプリをご紹介いただくことで、地域の助け合いが団体への支援としてめぐります。</p>
+      <a class="btn sub" href="mailto:aito.hikuzawa@gmail.com?subject=%E3%80%90%E3%82%86%E3%81%84%E3%81%BE%E3%82%8B%E3%80%91%E6%8F%90%E6%90%BA%E5%9B%A3%E4%BD%93%E3%81%AE%E7%94%B3%E3%81%97%E8%BE%BC%E3%81%BF&amp;body=%E5%9B%A3%E4%BD%93%E5%90%8D%EF%BC%8F%E6%B4%BB%E5%8B%95%E5%9C%B0%E5%9F%9F%EF%BC%8F%E6%B4%BB%E5%8B%95%E5%86%85%E5%AE%B9%EF%BC%8F%E6%8B%85%E5%BD%93%E8%80%85%E5%90%8D%E3%83%BB%E9%80%A3%E7%B5%A1%E5%85%88%20%E3%82%92%E3%81%8A%E6%9B%B8%E3%81%8D%E3%81%8F%E3%81%A0%E3%81%95%E3%81%84%E3%80%82">メールで問い合わせる</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <p><a href="../yuimaru.html">プライバシーポリシー</a><a href="../yuimaru-support.html">サポート</a><a href="mailto:aito.hikuzawa@gmail.com">運営へのご連絡</a></p>
+    <p style="margin-top:8px">ゆいまる ― 助けて、助けられて、めぐる。</p>
+  </div>
+</footer>
+
+</body>
+</html>
